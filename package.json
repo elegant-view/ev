@@ -1,0 +1,50 @@
+{
+  "name": "ve",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "dev": "node dev.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "babel": "^6.3.26",
+    "babel-core": "^6.4.0",
+    "babel-loader": "^6.2.1",
+    "babel-plugin-transform-es2015-modules-amd": "^6.4.3",
+    "babel-preset-es2015": "^6.3.13",
+    "webpack": "^1.12.11",
+    "webpack-dev-server": "^1.14.1"
+  },
+  "dependencies": {
+    "er": "github:ecomfe/er",
+    "esui": "github:ecomfe/esui",
+    "mini-event": "github:ecomfe/mini-event",
+    "moment": "^2.11.1",
+    "underscore": "^1.8.3",
+    "vcomponent": "github:elegant-view/vcomponent",
+    "vtpl": "github:elegant-view/vtpl"
+  },
+  "edp": {
+    "wwwroot": "/",
+    "depDir": "dep",
+    "srcDir": "src",
+    "loaderAutoConfig": "js,htm,html,tpl,vm,phtml",
+    "loaderUrl": "http://s1.bdstatic.com/r/www/cache/ecom/esl/1-8-2/esl.js",
+    "dependencies": {
+      "eicons": "~1.0.0-beta.1",
+      "eoo": "~0.1.4",
+      "er": "~3.1.0-rc.2",
+      "esf": "~1.0.0-rc.2",
+      "est": "~1.3.0",
+      "esui": "~3.2.0-beta.2",
+      "etpl": "~3.1.0",
+      "jquery": "~1.11.1",
+      "mini-event": "~1.0.2",
+      "moment": "~2.7.0",
+      "underscore": "~1.8.5",
+      "esl": "~1.2.0"
+    }
+  }
+}
