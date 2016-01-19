@@ -1,6 +1,6 @@
 import View from 'er/View';
 import ESUIParser from './ESUIParser';
-import VComponent from 'vcomponent';
+import {VComponent} from 'vcomponent';
 import ViewContext from 'esui/ViewContext';
 import u from 'underscore';
 
@@ -31,9 +31,23 @@ export default class UIView extends View {
                 this.$vcomponent.$vtpl.$tree.rootScope.set(change.name, change.newValue);
             });
         });
+
+        this.enterDocument();
     }
 
     getTemplate() {
         return '';
+    }
+
+    /**
+     * 根据控件上的ref标记获取控件
+     *
+     * @protected
+     * @param {string} ref 控件ref
+     * @return {Control}
+     */
+    get(ref) {
+        let children = this.$vcomponent.$vtpl.$tree.getTreeVar('children');
+        return children[ref];
     }
 }

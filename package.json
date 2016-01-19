@@ -4,7 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "dev": "node dev.js"
+    "dev-bak": "node dev.js",
+    "dev": "edp webserver"
   },
   "author": "",
   "license": "ISC",
