@@ -8,6 +8,7 @@ import Tree from 'vtpl/src/trees/Tree';
 import Node from 'vtpl/src/nodes/Node';
 import esui from 'esui';
 import ScopeModel from 'vtpl/src/ScopeModel';
+import {line2camel} from 'vtpl/src/utils';
 
 class ESUIParser extends ExprParser {
     constructor(options) {
@@ -22,6 +23,9 @@ class ESUIParser extends ExprParser {
             viewContext,
             main: this.node.$node
         });
+        if (!this.$$control) {
+            throw new Error(`no such control: ${this.getControlType()}`);
+        }
     }
 
     linkScope() {
@@ -47,18 +51,54 @@ class ESUIParser extends ExprParser {
                 exprCalculater.calculate(attrValue, true, local);
             }, this);
         }
+        // 对输入控件的value进行双向绑定
+        else if (this.isInputControl(this.$$control) && attrName === 'bind-value') {
+            this.twoWayBind(attrValue);
+        }
         else {
             this.$$control.set(attrName, attrValue);
         }
     }
 
+    twoWayBind(attrValue) {
+        // M->V
+        this.tree.rootScope.on('change', (model, changes) => {
+            for (let i = 0, il = changes.length; i < il; ++i) {
+                let change = changes[i];
+                if (change.name === attrValue) {
+                    this.dirtyCheck(attrValue, change.newValue, change.oldValue)
+                        && this.$$control.set('rawValue', change.newValue);
+                    return;
+                }
+            }
+        });
+        // V->M
+        this.$$control.on('input', event => {
+            this.tree.rootScope.set(attrValue, event.target.getRawValue());
+        }, this);
+        this.$$control.on('change', event => {
+            this.tree.rootScope.set(attrValue, event.target.getRawValue());
+        }, this);
+    }
+
+    isInputControl(control) {
+        let category = control.getCategory();
+        return category === 'input' || category === 'check' || category === 'extend';
+    }
+
     getControlType() {
         let tagName = this.node.getTagName();
-        return tagName.replace('esui-', '').replace(/^[a-z]/, matched => matched.toUpperCase());
+        return line2camel(tagName.replace('esui', ''));
     }
 
     getChildNodes() {
         return [];
+    }
+
+    destroy() {
+        this.$$control.dispose();
+
+        super.destroy();
     }
 
     static isProperNode(node) {

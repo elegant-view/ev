@@ -18,5 +18,3 @@ function getNode(id) {
     node.style.display = 'block';
     return node;
 }
-
-
