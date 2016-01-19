@@ -3,6 +3,7 @@ import ESUIParser from './ESUIParser';
 import {VComponent} from 'vcomponent';
 import ViewContext from 'esui/ViewContext';
 import u from 'underscore';
+import esui from 'esui';
 
 let counter = 0x861005;
 function getGUID() {
